@@ -1,0 +1,73 @@
+\documentclass[10pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fullpage}
+\usepackage[normalem]{ulem} % For strikethrough font
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,latexsym}
+\usepackage{verbatim}
+\usepackage{caption}
+\usepackage{subcaption}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{CS 3110 Project Milestone 1}
+\author{}
+\date{November 12, 2015}
+
+\begin{document}
+\maketitle
+
+\part*{Administrative}
+\section*{Team Members:}
+\begin{tabular}{c r}
+Daniel Etter & (\texttt{dje67})\\
+Ian Hoffman & (\texttt{ijh6})\\
+Rob Barrett & (\texttt{rpb83})\\
+\end{tabular}
+
+\section*{Meetings:}
+\begin{tabular}{l r}
+Tuesdays & 3:00-4:30pm \\
+Thursdays & 3:00-4:30pm \\
+Weekends & As Needed \\
+\end{tabular}
+
+\part*{System Description}
+
+\section*{System Proposal}
+We intend to build an implementation of Battleship, including a GUI. \\
+Feature list:
+\begin{itemize}
+\item Local Multiplayer
+\item AI with multiple levels of difficulty
+\item GUI
+\item Standard 10 x 10 Battleship Board
+\end{itemize}
+
+\section*{Narrative Description}
+The game being designed will be played between a player and the computer or another player.
+Each side will have access to their grid and their guesses about an opponent’s grid.
+Each grid is made up of a 10x10 array, positions on the grid are indicated by a letter A-L, and a number 1-10.
+Each player gets 5 ships to place: an Aircraft Carrier of size 5 (5 x 1), a Battleship of size 4 (4 x 1), a Submarine of size 3 (3 x 1), A Destroyer of size 3 (3 x 1), and a Patrol boat of size 2 (2 x 1).
+These are placed across the board, and must be completely contained by the 10x10 grid with no overlaps between ships.
+The game is played by each player guessing about the location of their opponent’s ships with a (letter, number) pair.
+If they miss, they will be notified visually and textually.
+If they hit, they will be notified the same way, but with a different color.
+Taking out a ship completely results in a notification of the type of ship eliminated.
+When one player has all their ships sunk, they are the loser!
+There will be a GUI for the player showing their board and their guesses, allowing for easy placement of ships at the beginning of the game, and smooth, straightforward play.
+\includegraphics[scale=.5]{board.png}
+
+\part*{Architecture}
+What are the components and connectors? Include a components and connectors (C&C) diagram.
+\part*{System Design}
+What are the important modules that will be implemented? What is the purpose of each module? Include a module dependency diagram (MDD).
+\part*{Module Design}
+What is the interface to each module? Write a .mli file making each interface precise with names, types, and brief specifications (which you will plan to elaborate later); submit a zip file named interfaces.zip containing those .mli files along with your design document.
+\part*{Data}
+What data will your system maintain? What formats will be used for storage or communication? What data structures do you expect to use as part of your implementation?
+\part*{External Dependencies}
+What third-party libraries (if any) will you use?
+\part*{Testing Plan}
+How will you test your system throughout development? What kinds of unit and module tests will you write? How will you, as a team, commit to following your testing plan and holding each other accountable for writing correct code?
+
+\end{document}
