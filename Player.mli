@@ -1,4 +1,4 @@
-open Board.mli
+open Board
 
 (*Type player, contains the name of the player, the player's
  * board, the board that keeps track of the player's guesses
