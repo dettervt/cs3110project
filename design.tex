@@ -10,18 +10,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title{CS 3110 Project Milestone 1}
-\author{}
+\author{Battleship}
 \date{November 12, 2015}
 
 \begin{document}
 \maketitle
 
-\part*{Administrative}
 \section*{Team Members:}
-\begin{tabular}{c r}
-Daniel Etter & (\texttt{dje67})\\
-Ian Hoffman & (\texttt{ijh6})\\
-Rob Barrett & (\texttt{rpb83})\\
+\begin{tabular}{l l}
+Daniel Etter & \texttt{dje67}\\
+Ian Hoffman & \texttt{ijh6}\\
+Rob Barrett & \texttt{rpb83}\\
 \end{tabular}
 
 \section*{Meetings:}
@@ -31,43 +30,116 @@ Thursdays & 3:00-4:30pm \\
 Weekends & As Needed \\
 \end{tabular}
 
-\part*{System Description}
+\section*{Mockup}
+\includegraphics[scale=.5]{boardmockup.jpg}
 
+\clearpage
+\part*{System Description}
 \section*{System Proposal}
 We intend to build an implementation of Battleship, including a GUI. \\
 Feature list:
 \begin{itemize}
-\item Local Multiplayer
-\item AI with multiple levels of difficulty
-\item GUI
-\item Standard 10 x 10 Battleship Board
+    \item Local Multiplayer
+    \item AI with multiple levels of difficulty
+    \item Graphical User Interface
+    \item Standard 10 x 10 Battleship Board
 \end{itemize}
 
 \section*{Narrative Description}
 The game being designed will be played between a player and the computer or another player.
 Each side will have access to their grid and their guesses about an opponent’s grid.
-Each grid is made up of a 10x10 array, positions on the grid are indicated by a letter A-L, and a number 1-10.
-Each player gets 5 ships to place: an Aircraft Carrier of size 5 (5 x 1), a Battleship of size 4 (4 x 1), a Submarine of size 3 (3 x 1), A Destroyer of size 3 (3 x 1), and a Patrol boat of size 2 (2 x 1).
-These are placed across the board, and must be completely contained by the 10x10 grid with no overlaps between ships.
+Each grid is made up of a 10 x 10 array, positions on the grid are indicated by a letter A-J, and a number 1-10.
+Each player gets 5 ships to place:
+\begin{itemize}
+    \item An \textbf{Aircraft Carrier} of length 5
+    \item A \textbf{Battleship} of size 4
+    \item A \textbf{Cruiser} of size 3
+    \item A \textbf{Destroyer} of size 3
+    \item A \textbf{Patrol Boat} of size 2
+\end{itemize}
+These are placed across the board, and must be completely contained by the 10 x 10 grid with no overlaps between ships.
 The game is played by each player guessing about the location of their opponent’s ships with a (letter, number) pair.
 If they miss, they will be notified visually and textually.
 If they hit, they will be notified the same way, but with a different color.
 Taking out a ship completely results in a notification of the type of ship eliminated.
 When one player has all their ships sunk, they are the loser!
-There will be a GUI for the player showing their board and their guesses, allowing for easy placement of ships at the beginning of the game, and smooth, straightforward play.
-\includegraphics[scale=.5]{board.png}
+There will be a GUI for the player showing their board and their guesses, allowing for easy placement of ships at the beginning of the game, and smooth, straightforward play. \\
 
+\clearpage
 \part*{Architecture}
-What are the components and connectors? Include a components and connectors (C&C) diagram.
+Our system is loosely based around a Model-View-Controller architecture.\\
+\includegraphics[scale=.5]{cc.jpg}
+%insert cc.jpg
+%What are the components and connectors? Include a components and connectors (C\&C) diagram.
+
+\clearpage
 \part*{System Design}
-What are the important modules that will be implemented? What is the purpose of each module? Include a module dependency diagram (MDD).
+Important modules include:
+\begin{itemize}
+    \item \texttt{Controller}: Collects user input through \texttt{Graphics} and updates \texttt{Game} model accordingly
+    \item \texttt{Display}: Uses \texttt{Graphics} and draws the current state from \texttt{Game} model
+    \item \texttt{Game}: Represents the state of a Battleship game, with players, boards, and other information
+    \item \texttt{Player}: Keeps track of ship and peg board
+    \item \texttt{Board}: A board structure of either pegs or ships at positions in the board
+\end{itemize}
+\includegraphics[scale=.5]{mdd.jpg}
+%What are the important modules that will be implemented? What is the purpose of each module? Include a module dependency diagram (MDD).
+
 \part*{Module Design}
-What is the interface to each module? Write a .mli file making each interface precise with names, types, and brief specifications (which you will plan to elaborate later); submit a zip file named interfaces.zip containing those .mli files along with your design document.
+Please see comments in \texttt{*.mli} in \texttt{interfaces.zip}.
+%What is the interface to each module? Write a .mli file making each interface precise with names, types, and brief specifications (which you will plan to elaborate later); submit a zip file named interfaces.zip containing those .mli files along with your design document.
+
+\clearpage
 \part*{Data}
-What data will your system maintain? What formats will be used for storage or communication? What data structures do you expect to use as part of your implementation?
+The data will be stored in our \texttt{Game} model according to the following:
+\section*{Game}
+\begin{itemize}
+    \item Turn Number: \texttt{int} representing the number of turns elapsed
+    \item Current Player: \texttt{int} representing the current player
+        \begin{itemize}
+            \item 0: Initialization State
+            \item 1: Player 1's turn
+            \item 2: Player 2's turn
+            \item 3: Player 1 has won
+            \item 4: Player 2 has won
+        \end{itemize}
+    \item Player 1: \texttt{Player} representing the first player
+    \item Player 2: \texttt{Player} representing the second player
+\end{itemize}
+\section*{Player}
+\begin{itemize}
+    \item Name: \texttt{string} representing the name of this player for display purposes
+    \item IS\_AI: \texttt{boolean} representing whether this is a player or AI
+    \item AI\_LEVEL \texttt{int} representing the AI difficulty level
+        \begin{itemize}
+            \item 0: None (Human player 2)
+            \item 1: Easy
+            \item 2: Normal
+            \item 3: Hard
+        \end{itemize}
+    \item Guesses: \texttt{Position list} representing the guesses previously made by this player
+    \item Ship Board: \texttt{Board} representing this player's ship board
+    \item Peg Board: \texttt{Board} representing this player's peg board (of guesses)
+\end{itemize}
+\section*{Board}
+An association list of \texttt{Position}s and \texttt{Squares}
+\section*{Squares}
+A \texttt{Square} is either empty, a \texttt{Peg}, or a \texttt{Ship}
+\subsection*{Peg}
+A \texttt{Peg} is a \texttt{boolean}, with true or false meaning a red (hit) or white (miss) peg, respectively
+\subsection*{Ship}
+A \texttt{Ship} is a \texttt{boolean}, representing the statement \textit{this ship has been hit}
+\subsection*{Position}
+A \texttt{Position} is a (\texttt{Character},\texttt{Int})
+%What data will your system maintain? What formats will be used for storage or communication? What data structures do you expect to use as part of your implementation?
+
+\clearpage
 \part*{External Dependencies}
-What third-party libraries (if any) will you use?
+No external libraries needed, only the oCaml \texttt{graphics} module will be used.
+%What third-party libraries (if any) will you use?
+
 \part*{Testing Plan}
-How will you test your system throughout development? What kinds of unit and module tests will you write? How will you, as a team, commit to following your testing plan and holding each other accountable for writing correct code?
+The model will be unit tested, as it is easy to know the output given an input. The controller and display modules, however, cannot be truly unit tested, and will therefore be eyeballed and ensured their behavior is correct. Team members will write and document their own tests and results and share with the rest of the team.
+%How will you test your system throughout development? What kinds of unit and module tests will you write? How will you, as a team, commit to following your testing plan and holding each other accountable for writing correct code?
 
 \end{document}
