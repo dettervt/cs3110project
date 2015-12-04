@@ -14,7 +14,7 @@ type position = (char * int)
 
 type board = (position * square ref) list
 
-type game = {board : board; 
+type player_model = {board : board; 
   pboard : board; mutable ships : ship list}
 
 let position_list = 
