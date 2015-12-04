@@ -38,7 +38,7 @@ val draw_ship_board : board -> unit
 (*
   Draws a blind for multiplayer, between players' turns
 *)
-val drawblind: unit -> unit
+val draw_blind: unit -> unit
 
 (*
   Draws the game stats (Turn number, players' active ships), with
