@@ -3,18 +3,18 @@
  * that that part of the ship has been hit, while false represents
  * otherwise*)
 type ship_name =
-  |Carrier  |Battleship  |Cruiser 
+  |Carrier  |Battleship  |Cruiser
   |Destroyer  |Patrol
 
 type ship = {name : ship_name ; mutable hit : bool}
 
-(*Type square, which simulates a space on either a player's board 
- * or the representation of the opponent's board. It is either a 
+(*Type square, which simulates a space on either a player's board
+ * or the representation of the opponent's board. It is either a
  * Ship of type ship, an empty space, or a Peg of type bool*)
 type square =
-  |Ship of ship 
-  |Empty 
-  |Peg of bool 
+  |Ship of ship
+  |Empty
+  |Peg of bool
 
 (*The position of the square; A5 for example is ('A',5)*)
 type position = (char * int)
@@ -25,14 +25,14 @@ type position = (char * int)
  * it is a player's own board or a representation of an opponent's*)
 type board = (position * square ref) list
 
-type player_model = 
+type player_model =
   {board : board; pboard : board; mutable ships : ship list}
 
 (*creates empty board*)
 val ship_cons : ship_name -> ship
 
 (*Creates a new ship at the listed positions*)
-val add_ship : ship_name -> position list -> player_model -> 
+val add_ship : ship_name -> position list -> player_model ->
     unit
 
 (*Checks if all squares are empty on the board*)
@@ -48,7 +48,7 @@ val check_guess : position -> player_model -> bool
 (*Updates opponent's board based on value given by check_guess. If
   the guessed position did not contain a ship, returns the board
   itself  *)
-val update_board : position -> player_model -> bool -> unit
+val update_board : position -> player_model -> unit
 
 (*Updates peg board based on value given by check_guess. If the guess
  * did not hit a ship, then a Peg of false is placed on the board at
