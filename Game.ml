@@ -6,5 +6,5 @@ type game = {mutable current_player : int
 ; player2: Player.player }
 
 let inc_turn g = if g.current_player mod 2 = 0 then 
-  g.turn <- 1 else ()
+  g.current_player <- 1 else g.current_player <- 2
 
