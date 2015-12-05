@@ -28,6 +28,9 @@ type board = (position * square ref) list
 type player_model =
   {board : board; pboard : board; mutable ships : ship list}
 
+(* TODO: Document me *)
+val create_model : unit -> player_model
+
 (*creates empty board*)
 val ship_cons : ship_name -> ship
 

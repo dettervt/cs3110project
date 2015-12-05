@@ -7,7 +7,7 @@ open Board
  * and the difficulty of the AI (0 if not AI)*)
 
 type player = {num : string; model : player_model;
- guesses : position list}
+ mutable guesses : position list}
 
 (*Creates a player using a given name, whether or not it is an AI,
  * and the difficulty (0 if not AI)*)
@@ -17,6 +17,6 @@ val create_player : string  -> player
  * already guessed list*)
 val is_guessed : position -> player -> bool
 
-(*Adds a position to the list of positions that the player has 
+(*Adds a position to the list of positions that the player has
  * already guessd*)
-val add_guess : position -> player -> player
+val add_guess : position -> player -> unit
