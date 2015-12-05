@@ -31,7 +31,7 @@ type player_model =
 (* TODO: Document me *)
 val create_model : unit -> player_model
 
-(*creates empty board*)
+(* Create a ship from ship_name *)
 val ship_cons : ship_name -> ship
 
 (*Creates a new ship at the listed positions*)
