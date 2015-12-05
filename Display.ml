@@ -1,4 +1,5 @@
 open Graphics
+open Game
 
   (* Light Blue *)
   let color1 = 10288380
@@ -42,7 +43,7 @@ open Graphics
 let checkgrid (mouse_x: int) (mouse_y: int) (start_x: int)
                 (start_y: int) (sq_width: int) (spacing: int)
                 (dim: int) : (string * int) option =
-  let rec across mx my sx sy w s n_start n_fin : string option =
+  let rec across mx my sx sy w s n_start n_fin : char option =
   (
     match (n_start < n_fin) with
     | false -> None
@@ -51,12 +52,12 @@ let checkgrid (mouse_x: int) (mouse_y: int) (start_x: int)
         (mx <= (sx + (((n_start + 1) * w) + (n_start * s)))) &&
         (my >= sy) &&
         (my <= (sy + w)) then
-        Some (List.nth letters n_start)
+        Some (String.get (List.nth letters n_start) 0)
       else
         across mx my sx sy w s (n_start + 1) n_fin
   )
 
-  and down mx my sx sy w s n_start n_fin : (string * int) option =
+  and down mx my sx sy w s n_start n_fin : (char * int) option =
   (
     match (n_start < n_fin) with
     | false -> None
@@ -72,13 +73,13 @@ let checkgrid (mouse_x: int) (mouse_y: int) (start_x: int)
   in down mouse_x mouse_y start_x start_y sq_width spacing 0 dim
 
 (* Returns the square the mouse is in and board it is on, or None *)
-let rec quantize_mouse () : (string * int * string) option =
+let rec quantize_mouse () : (position * string) option =
   let (mouse_x, mouse_y) = mouse_pos () in
   let peg_grid_check = checkgrid mouse_x mouse_y 35 320 20 5 10 in
   let ship_grid_check = checkgrid mouse_x mouse_y 335 20 20 5 10 in
   match peg_grid_check, ship_grid_check with
-  | (Some (s, i), _) -> Some (s, i, "pegboard")
-  | (_, Some (s, i)) -> Some (s, i, "shipboard")
+  | (Some (c, i), _) -> Some ((c, i), "pegboard")
+  | (_, Some (c, i)) -> Some ((c, i), "shipboard")
   | _ -> None
 
 (* Draws a line from the starting point to the endpoint *)
@@ -242,7 +243,16 @@ let draw_blind () =
   moveto 256 300;
   draw_string "Click when ready"
 
-let draw_stats () =
+let draw_win_screen winning_player =
+  set_color color4;
+  fill_rect 0 0 600 600;
+  set_color 0;
+  set_text_size 200;
+  moveto 250 300;
+  let text = "Player " ^ (string_of_int winning_player) ^ " wins!" in
+  draw_string text
+
+let draw_stats game =
   set_color color4;
   fill_rect 320 320 260 260;
   set_color 0;
@@ -267,11 +277,13 @@ let draw_stats () =
   moveto 470 510;
   draw_string "Player 2's Ships";
   moveto 357 550;
-  draw_string "It is currently Player _'s turn!";
+  let turn_indic_string =
+    "It is currently Player " ^ !(game.current_player) ^"'s turn!" in
+  draw_string turn_indic_string;
   drawtextlist 355 465 shipnames 25 25 false;
   drawtextlist 485 465 shipnames 25 25 false
 
-let draw_console () =
+let draw_console command_list =
   set_color color4;
   fill_rect 20 20 260 260;
   set_color 0;
@@ -297,20 +309,44 @@ let draw_console () =
   set_color color5;
   moveto 128 240;
   draw_string "Console:";
-  drawtextlist 70 180 ["Random command 1"; "Hello world"] 25 25 false
+  let commands_for_display =
+    let len = (min(6, (List.length command_list)) - 1) in
+    let l = [] in for i = 0 to len do (l = (List.nth command_list i) @ l) done
+  in drawtextlist 70 180 commands_for_display 25 25 false
 
-let draw_game () (* game console_list *) =
+let draw_game game console_list =
   auto_synchronize false;
   open_battleship_window ();
-  (*
-  draw_peg_grid ();
-  draw_ship_grid ();
-  *)
-  drawline (0, 300) (600, 300) 3 0;
-  drawline (300, 0) (300, 600) 3 0;
-  draw_stats ();
-  draw_console ();
-  synchronize ()
-
-let () =
-  draw_game ()
+  let () =
+  (
+    (* Player 1 viewpoint *)
+    if (!game.current_player) = 1 then
+      let () =
+      draw_peg_grid (game.player1.model.pboard);
+      draw_ship_grid (game.player1.model.board);
+      drawline (0, 300) (600, 300) 3 0;
+      drawline (300, 0) (300, 600) 3 0;
+      draw_stats game;
+      draw_console console_list
+      in ()
+    (* Player 2 viewpoint *)
+    else if (!game.current_player) = 2 then
+      let () =
+      draw_peg_grid (game.player2.model.pboard);
+      draw_ship_grid (game.player2.model.board);
+      drawline (0, 300) (600, 300) 3 0;
+      drawline (300, 0) (300, 600) 3 0;
+      draw_stats game;
+      draw_console console_list
+      in ()
+    (* Blind between local turns *)
+    else if (!game.current_player) = 3 then
+      draw_blind ()
+    (* Player 1 win screen *)
+    else if (!game.current_player) = 4 then
+      draw_win_screen 1
+    (* Player 2 win screen *)
+    else
+      draw_win_screen 2
+  )
+    in synchronize ()
