@@ -166,16 +166,23 @@ let draw_peg_grid board =
   set_color 0;
   moveto 119 306;
   draw_string "Your guesses";
-  let rec peg_traverse x y w s =
+  let rec peg_traverse x y w s d count board =
+  let (xc, yc) = (((count/10) * (w + s)), (225 - ((count mod d) * (w + s)))) in
+  let (xc, yc) = (xc + x, yc + y) in
+    match board with
+    | [] -> ()
+    | h::t ->
+      let () =
+      (
+        match !(snd h) with
+        | Peg b -> draw_peg xc yc b
+        | _ -> ()
+      )
+      in peg_traverse x y w s d (count + 1) t
 
-(* Draws the ship board, given a board *)
-let draw_ship_grid board =
-  draw_play_board 335 20;
-  set_color 0;
-  moveto 419 6;
-  draw_string "Your board";
-  let rec ship_traverse x y w s =
+  in peg_traverse 35 320 20 5 10 0 board
 
+(* Draws one ship segment *)
 let draw_ship_piece x y hit identifier =
   let (l, m, d) = if hit then (color11, color12, color13)
   else (color8, color9, color10) in
@@ -191,6 +198,41 @@ let draw_ship_piece x y hit identifier =
   moveto (x + 4) (y + 5);
   set_color color14;
   draw_string identifier
+
+(* Draws the ship board, given a board *)
+let draw_ship_grid board =
+  draw_play_board 335 20;
+  set_color 0;
+  moveto 419 6;
+  draw_string "Your board";
+  let rec ship_traverse x y w s d count board =
+  let (xc, yc) = (((count/10) * (w + s)), (225 - ((count mod d) * (w + s)))) in
+  let (xc, yc) = (xc + x, yc + y) in
+    match board with
+    | [] -> ()
+    | h::t ->
+      let () =
+      (
+        match !(snd h) with
+        | Ship c ->
+        (
+          match c.name with
+          | Carrier ->
+            draw_ship_piece xc yc c.hit "CA"
+          | Battleship ->
+            draw_ship_piece xc yc c.hit "BS"
+          | Cruiser ->
+            draw_ship_piece xc yc c.hit "CR"
+          | Destroyer ->
+            draw_ship_piece xc yc c.hit "DE"
+          | Patrol ->
+            draw_ship_piece xc yc c.hit "PB"
+        )
+        | Empty -> ()
+      )
+      in ship_traverse x y w s d (count + 1) t
+
+  in ship_traverse 335 20 20 5 10 0 board
 
 let draw_blind () =
   set_color color4;
@@ -257,11 +299,13 @@ let draw_console () =
   draw_string "Console:";
   drawtextlist 70 180 ["Random command 1"; "Hello world"] 25 25 false
 
-let draw_game game console_list =
+let draw_game () (* game console_list *) =
   auto_synchronize false;
   open_battleship_window ();
+  (*
   draw_peg_grid ();
   draw_ship_grid ();
+  *)
   drawline (0, 300) (600, 300) 3 0;
   drawline (300, 0) (300, 600) 3 0;
   draw_stats ();
