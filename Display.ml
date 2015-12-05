@@ -1,4 +1,6 @@
 open Graphics
+open Board
+open Player
 open Game
 
   (* Light Blue *)
@@ -42,7 +44,7 @@ open Game
 (* Checks one DIM x DIM grid for the position of the mouse *)
 let checkgrid (mouse_x: int) (mouse_y: int) (start_x: int)
                 (start_y: int) (sq_width: int) (spacing: int)
-                (dim: int) : (string * int) option =
+                (dim: int) : position option =
   let rec across mx my sx sy w s n_start n_fin : char option =
   (
     match (n_start < n_fin) with
@@ -229,7 +231,7 @@ let draw_ship_grid board =
           | Patrol ->
             draw_ship_piece xc yc c.hit "PB"
         )
-        | Empty -> ()
+        | _ -> ()
       )
       in ship_traverse x y w s d (count + 1) t
 
@@ -278,7 +280,9 @@ let draw_stats game =
   draw_string "Player 2's Ships";
   moveto 357 550;
   let turn_indic_string =
-    "It is currently Player " ^ !(game.current_player) ^"'s turn!" in
+    "It is currently Player " ^
+    string_of_int(game.current_player) ^
+    "'s turn!" in
   draw_string turn_indic_string;
   drawtextlist 355 465 shipnames 25 25 false;
   drawtextlist 485 465 shipnames 25 25 false
@@ -309,9 +313,14 @@ let draw_console command_list =
   set_color color5;
   moveto 128 240;
   draw_string "Console:";
+  let rec first_n_rev l n =
+    match n with
+    | 0 -> []
+    | x -> (List.nth l (x - 1))::(first_n_rev l (n - 1))
+  in
   let commands_for_display =
-    let len = (min(6, (List.length command_list)) - 1) in
-    let l = [] in for i = 0 to len do (l = (List.nth command_list i) @ l) done
+    let lenl = ((min 6 (List.length command_list)) - 1) in
+    first_n_rev command_list lenl
   in drawtextlist 70 180 commands_for_display 25 25 false
 
 let draw_game game console_list =
@@ -320,7 +329,7 @@ let draw_game game console_list =
   let () =
   (
     (* Player 1 viewpoint *)
-    if (!game.current_player) = 1 then
+    if (game.current_player) = 1 then
       let () =
       draw_peg_grid (game.player1.model.pboard);
       draw_ship_grid (game.player1.model.board);
@@ -330,7 +339,7 @@ let draw_game game console_list =
       draw_console console_list
       in ()
     (* Player 2 viewpoint *)
-    else if (!game.current_player) = 2 then
+    else if (game.current_player) = 2 then
       let () =
       draw_peg_grid (game.player2.model.pboard);
       draw_ship_grid (game.player2.model.board);
@@ -340,10 +349,10 @@ let draw_game game console_list =
       draw_console console_list
       in ()
     (* Blind between local turns *)
-    else if (!game.current_player) = 3 then
+    else if (game.current_player) = 3 then
       draw_blind ()
     (* Player 1 win screen *)
-    else if (!game.current_player) = 4 then
+    else if (game.current_player) = 4 then
       draw_win_screen 1
     (* Player 2 win screen *)
     else
