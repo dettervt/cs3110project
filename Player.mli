@@ -5,15 +5,13 @@ open Board
  * on the opponent's board, the list of guesses the player has
  * already made, whether or not the player is an AI,
  * and the difficulty of the AI (0 if not AI)*)
-type player = {num : string; ship_board : board; 
-  peg_board : board;
-  guesses : position list;
-  is_AI : boolean;
-  ai_level : int}
+
+type player = {num : string; model : player_model;
+ guesses : position list}
 
 (*Creates a player using a given name, whether or not it is an AI,
  * and the difficulty (0 if not AI)*)
-val create_player : string -> bool -> int -> player
+val create_player : string  -> player
 
 (*Returns true if given position is a part of the player's
  * already guessed list*)
