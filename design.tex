@@ -7,11 +7,14 @@
 \usepackage{verbatim}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage[utf8]{inputenx}
+\usepackage{newunicodechar}
+\newunicodechar{☭}{\hammer{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{CS 3110 Project Milestone 1}
+\title{CS 3110 Project Milestone 2}
 \author{Battleship}
-\date{November 12, 2015}
+\date{December 5, 2015}
 
 \begin{document}
 \maketitle
@@ -20,7 +23,7 @@
 \begin{tabular}{l l}
 Daniel Etter & \texttt{dje67}\\
 Ian Hoffman & \texttt{ijh6}\\
-Rob Barrett & \texttt{rpb83}\\
+Robert Barrett & \texttt{rpb83}\\
 \end{tabular}
 
 \section*{Meetings:}
@@ -39,15 +42,15 @@ Weekends & As Needed \\
 We intend to build an implementation of Battleship, including a GUI. \\
 Feature list:
 \begin{itemize}
-    \item Local Multiplayer
-    \item AI with multiple levels of difficulty
+    \item Local and Network Multiplayer
+    %\item AI with multiple levels of difficulty
     \item Graphical User Interface
     \item Standard 10 x 10 Battleship Board
 \end{itemize}
 
 \section*{Narrative Description}
-The game being designed will be played between a player and the computer or another player.
-Each side will have access to their grid and their guesses about an opponent’s grid.
+The game being designed will be played between two players.
+Each side will have access to their grid and their guesses about an opponent's grid.
 Each grid is made up of a 10 x 10 array, positions on the grid are indicated by a letter A-J, and a number 1-10.
 Each player gets 5 ships to place:
 \begin{itemize}
@@ -69,7 +72,6 @@ There will be a GUI for the player showing their board and their guesses, allowi
 \part*{Architecture}
 Our system is loosely based around a Model-View-Controller architecture.\\
 \includegraphics[scale=.5]{cc.jpg}
-%insert cc.jpg
 %What are the components and connectors? Include a components and connectors (C\&C) diagram.
 
 \clearpage
@@ -141,5 +143,11 @@ No external libraries needed, only the oCaml \texttt{graphics} module will be us
 \part*{Testing Plan}
 The model will be unit tested, as it is easy to know the output given an input. The controller and display modules, however, cannot be truly unit tested, and will therefore be eyeballed and ensured their behavior is correct. Team members will write and document their own tests and results and share with the rest of the team.
 %How will you test your system throughout development? What kinds of unit and module tests will you write? How will you, as a team, commit to following your testing plan and holding each other accountable for writing correct code?
+
+\part*{Division of Labor}
+\section*{Daniel Etter \texttt{dje67}}
+\section*{Robert Barrett \texttt{rpb83}}
+\section*{Ian Hoffman \texttt{ijh6}}
+Test tests
 
 \end{document}
