@@ -144,7 +144,8 @@ let rec drawtextlist (start_x: int) (start_y: int) (text: string list)
 
 let open_battleship_window () =
   let () = open_graph " 600x600" in
-  set_window_title "Battleship"
+  set_window_title "Battleship";
+  auto_synchronize false
 
 (* Draws a generic battleship grid *)
 let draw_play_board x y =
@@ -287,6 +288,7 @@ let draw_stats game =
   drawtextlist 355 465 shipnames 25 25 false;
   drawtextlist 485 465 shipnames 25 25 false
 
+(* Draws the console in the lower left, with the last 6 console messages *)
 let draw_console command_list =
   set_color color4;
   fill_rect 20 20 260 260;
@@ -323,9 +325,11 @@ let draw_console command_list =
     first_n_rev command_list lenl
   in drawtextlist 70 180 commands_for_display 25 25 false
 
+(*
+  Draws the entire game on the screen, given the current
+  game state and list of console commands
+*)
 let draw_game game console_list =
-  auto_synchronize false;
-  open_battleship_window ();
   let () =
   (
     (* Player 1 viewpoint *)
@@ -358,4 +362,5 @@ let draw_game game console_list =
     else
       draw_win_screen 2
   )
+    (* Updates screen *)
     in synchronize ()
