@@ -255,6 +255,35 @@ let draw_win_screen winning_player =
   let text = "Player " ^ (string_of_int winning_player) ^ " wins!" in
   draw_string text
 
+(*
+  Helper function for draw_stats to draw red text
+  over a player's destroyed ships
+*)
+let rec draw_ship_statuses n game player_num x y y_spacing =
+  if n = 5 then () else
+  let model =
+    if player_num = 1 then
+      (game.player1.model)
+    else
+      (game.player2.model)
+  in
+    let ship_to_check =
+    (if n = 0 then Carrier else if n = 1 then Battleship
+    else if n = 2 then Cruiser else if n = 3 then Destroyer
+    else Patrol) in
+    match (is_sunk ship_to_check model) with
+    | true ->
+        moveto (x - 1) ((y + 1) - (y_spacing * n));
+        set_color color15;
+        draw_string (List.nth shipnames n);
+        draw_ship_statuses (n + 1) game player_num x y y_spacing
+    | false ->
+        draw_ship_statuses (n + 1) game player_num x y y_spacing
+
+(*
+  Draws the status box in the upper-right quadrant
+  of the graphics window
+*)
 let draw_stats game =
   set_color color4;
   fill_rect 320 320 260 260;
@@ -286,7 +315,9 @@ let draw_stats game =
     "'s turn!" in
   draw_string turn_indic_string;
   drawtextlist 355 465 shipnames 25 25 false;
-  drawtextlist 485 465 shipnames 25 25 false
+  draw_ship_statuses 0 game 1 335 465 25;
+  drawtextlist 485 465 shipnames 25 25 false;
+  draw_ship_statuses 0 game 2 485 465 25
 
 (* Draws the console in the lower left, with the last 6 console messages *)
 let draw_console command_list =
