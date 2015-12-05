@@ -10,6 +10,12 @@ open Game
 val quantize_mouse : unit -> (position * string) option
 
 (*
+  Opens the window for the battleship game,
+  corrects default buffer synchronization settings
+*)
+val open_battleship_window : unit -> unit
+
+(*
   Accepts game, which gives information about what board to draw,
   current player turn, all boards, players, ship positions, pegs.
   Also accepts a string list representing the items in the console.
