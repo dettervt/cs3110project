@@ -29,7 +29,7 @@ let position_list =
 
 let ship_cons = fun s -> {name = s; hit = false}
 
-let create_board () = let pos = position_list in 
+let create_model () = let pos = position_list in 
   let shp_bd = List.fold_left (fun acc a -> acc@[(a, ref Empty)]) [] pos in
   let peg_bd = List.fold_left (fun acc a -> acc@[(a, ref Empty) ]) [] pos in
   {board = shp_bd; pboard = peg_bd ; ships = []}
