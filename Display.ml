@@ -10,6 +10,10 @@ open Graphics
   let color4 = 13948116
   (* Terminal Green *)
   let color5 = 3407718
+  (* Dark Grey *)
+  let color6 = 9145997
+  (* Very Light Grey *)
+  let color7 = 16053492
 
   (* Letters for labeling columns *)
   let letters = ["A";"B";"C";"D";"E";"F";"G";"H";"I";"J"]
@@ -17,6 +21,49 @@ open Graphics
   let numbers = ["1";"2";"3";"4";"5";"6";"7";"8";"9";"10"]
   (* Ship names for stats window *)
   let shipnames = ["Carrier";"Battleship";"Cruiser";"Destroyer";"Patrol Boat"]
+
+(* Checks one DIM x DIM grid for the position of the mouse *)
+let checkgrid (mouse_x: int) (mouse_y: int) (start_x: int)
+                (start_y: int) (sq_width: int) (spacing: int)
+                (dim: int) : (string * int) option =
+  let rec across mx my sx sy w s n_start n_fin : string option =
+  (
+    match (n_start < n_fin) with
+    | false -> None
+    | true ->
+      if (mx >= (sx + ((n_start * (w + s))))) &&
+        (mx <= (sx + (((n_start + 1) * w) + (n_start * s)))) &&
+        (my >= sy) &&
+        (my <= (sy + w)) then
+        Some (List.nth letters n_start)
+      else
+        across mx my sx sy w s (n_start + 1) n_fin
+  )
+
+  and down mx my sx sy w s n_start n_fin : (string * int) option =
+  (
+    match (n_start < n_fin) with
+    | false -> None
+    | true ->
+      let curr_y = (sy + (n_start * (w + s))) in
+      (
+        match (across mx my sx curr_y w s 0 n_fin) with
+        | None -> down mx my sx sy w s (n_start + 1) n_fin
+        | Some s -> Some (s, (n_fin - n_start))
+      )
+  )
+
+  in down mouse_x mouse_y start_x start_y sq_width spacing 0 dim
+
+(* Returns the square the mouse is in and board it is on, or None *)
+let rec quantize_mouse () : (string * int * string) option =
+  let (mouse_x, mouse_y) = mouse_pos () in
+  let peg_grid_check = checkgrid mouse_x mouse_y 35 320 20 5 10 in
+  let ship_grid_check = checkgrid mouse_x mouse_y 335 20 20 5 10 in
+  match peg_grid_check, ship_grid_check with
+  | (Some (s, i), _) -> Some (s, i, "pegboard")
+  | (_, Some (s, i)) -> Some (s, i, "shipboard")
+  | _ -> None
 
 (* Draws a line from the starting point to the endpoint *)
 let drawline (startx, starty) (endx, endy) width color =
@@ -89,10 +136,16 @@ let draw_play_board x y =
   drawtextlist (x - 13) (y + 230) numbers 12 25 false
 
 let draw_peg_grid () =
-  draw_play_board 35 320
+  draw_play_board 35 320;
+  set_color 0;
+  moveto 119 306;
+  draw_string "Your guesses"
 
 let draw_ship_grid () =
-  draw_play_board 335 20
+  draw_play_board 335 20;
+  set_color 0;
+  moveto 419 6;
+  draw_string "Your board"
 
 let draw_blind () =
   set_color color4;
@@ -111,6 +164,17 @@ let draw_stats () =
   drawline (320, 530) (580, 530) 3 0;
   drawline (330, 500) (570, 500) 2 0;
   drawline (450, 520) (450, 330) 2 0;
+  (* Dark stats emboss *)
+  drawline (325,325) (325, 525) 2 color6;
+  drawline (325, 525) (575, 525) 2 color6;
+  drawline (325, 535) (325, 575) 2 color6;
+  drawline (325, 575) (575, 575) 2 color6;
+  (* Light stats emboss *)
+  drawline (325, 325) (575, 325) 2 color7;
+  drawline (575, 325) (575, 525) 2 color7;
+  drawline (325, 535) (575, 535) 2 color7;
+  drawline (575, 535) (575, 575) 2 color7;
+  (* Stats text *)
   moveto 335 510;
   draw_string "Player 1's Ships";
   moveto 470 510;
@@ -128,12 +192,25 @@ let draw_console () =
   draw_rect 20 20 260 260;
   fill_rect 30 30 240 180;
   fill_rect 30 220 240 50;
-  set_line_width 1;
+  (* Dark console bevels *)
+  drawline (22, 22) (22, 277) 2 color6;
+  drawline (22, 277) (278, 277) 2 color6;
+  drawline (30, 28) (272, 28) 2 color6;
+  drawline (272, 28) (272, 210) 2 color6;
+  drawline (30, 218) (272, 218) 2 color6;
+  drawline (272, 218) (272, 270) 2 color6;
+  (* Light console bevels *)
+  drawline (22, 22) (277, 22) 2 color7;
+  drawline (277, 22) (278, 276) 2 color7;
+  drawline (29, 29) (29, 210) 2 color7;
+  drawline (29, 210) (272, 210) 2 color7;
+  drawline (29, 218) (29, 270) 2 color7;
+  drawline (29, 270) (272, 270) 2 color7;
+  (* Console text *)
   set_color color5;
   moveto 128 240;
   draw_string "Console:";
   drawtextlist 70 180 ["Random command 1"; "Hello world"] 25 25 false
-
 
 let draw_game () =
   auto_synchronize false;
