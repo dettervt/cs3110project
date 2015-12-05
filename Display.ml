@@ -14,6 +14,22 @@ open Graphics
   let color6 = 9145997
   (* Very Light Grey *)
   let color7 = 16053492
+  (* Mid Lavender *)
+  let color8 = 10790081
+  (* Light Lavender *)
+  let color9 = 14803434
+  (* Dark Lavender *)
+  let color10 = 6184584
+  (* Mid Peony *)
+  let color11 = 13392986
+  (* Light Peony *)
+  let color12 = 14786462
+  (* Dark Peony *)
+  let color13 = 8924202
+  (* White *)
+  let color14 = 16777215
+  (* Red *)
+  let color15 = 16721408
 
   (* Letters for labeling columns *)
   let letters = ["A";"B";"C";"D";"E";"F";"G";"H";"I";"J"]
@@ -127,6 +143,7 @@ let open_battleship_window () =
   let () = open_graph " 600x600" in
   set_window_title "Battleship"
 
+(* Draws a generic battleship grid *)
 let draw_play_board x y =
   set_color color1;
   drawgrid x y 20 5 10 true;
@@ -135,17 +152,45 @@ let draw_play_board x y =
   drawtextlist (x + 8) (y + 248) letters 12 25 true;
   drawtextlist (x - 13) (y + 230) numbers 12 25 false
 
-let draw_peg_grid () =
+(* Draws one peg in the indicated square *)
+let draw_peg x y hit =
+  let (m, s) = if hit then (color15, 0) else (color14, 0) in
+  set_color s;
+  fill_circle (x + 10) (y + 10) 8;
+  set_color m;
+  fill_circle (x + 10) (y + 10) 6
+
+(* Draws the peg board, given a board *)
+let draw_peg_grid board =
   draw_play_board 35 320;
   set_color 0;
   moveto 119 306;
-  draw_string "Your guesses"
+  draw_string "Your guesses";
+  let rec peg_traverse x y w s =
 
-let draw_ship_grid () =
+(* Draws the ship board, given a board *)
+let draw_ship_grid board =
   draw_play_board 335 20;
   set_color 0;
   moveto 419 6;
-  draw_string "Your board"
+  draw_string "Your board";
+  let rec ship_traverse x y w s =
+
+let draw_ship_piece x y hit identifier =
+  let (l, m, d) = if hit then (color11, color12, color13)
+  else (color8, color9, color10) in
+  set_color m;
+  fill_rect (x + 2) (y + 2) 16 16;
+  drawline ((x + 3), (y + 3)) ((x + 3), (y + 17)) 2 l;
+  drawline ((x + 3), (y + 17)) ((x + 17), (y + 17)) 2 l;
+  drawline ((x + 3), (y + 2)) ((x + 18), (y + 2)) 2 d;
+  drawline ((x + 18), (y + 2)) ((x + 18), (y + 17)) 2 d;
+  moveto (x + 5) (y + 4);
+  set_color d;
+  draw_string identifier;
+  moveto (x + 4) (y + 5);
+  set_color color14;
+  draw_string identifier
 
 let draw_blind () =
   set_color color4;
@@ -212,7 +257,7 @@ let draw_console () =
   draw_string "Console:";
   drawtextlist 70 180 ["Random command 1"; "Hello world"] 25 25 false
 
-let draw_game () =
+let draw_game game console_list =
   auto_synchronize false;
   open_battleship_window ();
   draw_peg_grid ();
