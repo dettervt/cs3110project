@@ -8,4 +8,4 @@ let open_connection sockaddr =
     (i,o)
 
 let shutdown_connection in_channel =
-    shudown (descr_of_in_channel in_channel); SHUTDOWN_SEND
+    shutdown (descr_of_in_channel in_channel) SHUTDOWN_SEND;;
