@@ -1,4 +1,6 @@
 open Graphics
+open Board
+open Player
 open Game
 
 (*
