@@ -22,3 +22,5 @@ val is_guessed : position -> player -> bool
 val add_guess : position -> player -> unit
 
 val serialize_player : player -> string
+
+val deserialize_player : string -> player
