@@ -63,7 +63,7 @@ let get_between (p1:position) (p2:position) : position list =
 let rec get_valid_click (s:string) : position =
     match quantize_mouse () with
     | None -> get_valid_click s
-    | Some (pos, s) -> if (s=s) then pos else get_valid_click s
+    | Some (pos, s2) -> if (s=s2) then pos else get_valid_click s
 
 (* Get an empty position on this player model's board *)
 let rec get_valid_pos (s:string) (pm:player_model) : position =
@@ -85,32 +85,31 @@ let rec get_valid_p2 (p1:position) (pm:player_model) (shiplen:int) : position =
     | (false, true) -> if (get_dist (c1, i1) (c2, i2)) = shiplen then (c2,i2) else get_valid_p2 p1 pm shiplen
     | (false, false) -> get_valid_p2 p1 pm shiplen
 
-let place_valid (shiplen:int) (pm:player_model) : position list =
+let place_valid (shiplen:int) (pm:player_model) (game_model:game) : position list =
     let pos1 = get_valid_pos "shipboard" pm in
     let _ = set_selected pos1 pm in
+    let _ = draw_game game_model [""] in
     let pos2 = get_valid_p2 pos1 pm shiplen in
     get_between pos1 pos2
 
-
-
-let place_ship (s:ship_name) (pm:player_model) : unit =
+let place_ship (s:ship_name) (pm:player_model) (game_model:game) : unit =
     match s with
-    | Carrier -> add_ship s (place_valid 5 pm) pm
-    | Battleship -> add_ship s (place_valid 4 pm) pm
-    | Destroyer -> add_ship s (place_valid 3 pm) pm
-    | Cruiser -> add_ship s (place_valid 3 pm) pm
-    | Patrol -> add_ship s (place_valid 2 pm) pm
+    | Carrier -> add_ship s (place_valid 5 pm game_model) pm
+    | Battleship -> add_ship s (place_valid 4 pm game_model) pm
+    | Destroyer -> add_ship s (place_valid 3 pm game_model) pm
+    | Cruiser -> add_ship s (place_valid 3 pm game_model) pm
+    | Patrol -> add_ship s (place_valid 2 pm game_model) pm
 
 let place_ships (p:player) (game_model:game): unit =
-    place_ship Carrier p.model;
+    place_ship Carrier p.model game_model;
     draw_game game_model ["Place your battleship"];
-    place_ship Battleship p.model;
+    place_ship Battleship p.model game_model;
     draw_game game_model ["Place your destroyer"];
-    place_ship Destroyer p.model;
+    place_ship Destroyer p.model game_model;
     draw_game game_model ["Place your cruiser"];
-    place_ship Cruiser p.model;
+    place_ship Cruiser p.model game_model;
     draw_game game_model ["Place your patrol boat"];
-    place_ship Patrol p.model;
+    place_ship Patrol p.model game_model;
     draw_game game_model ["Finished placing"]
 
 let do_guess pos curr opp : string =
