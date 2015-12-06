@@ -321,8 +321,10 @@ let draw_stats game =
     string_of_int(game.current_player) ^
     "'s turn!" in
   draw_string turn_indic_string;
+  set_color color3;
   drawtextlist 355 465 shipnames 25 25 false;
   draw_ship_statuses 0 game 1 355 465 25;
+  set_color color3;
   drawtextlist 485 465 shipnames 25 25 false;
   draw_ship_statuses 0 game 2 485 465 25
 
