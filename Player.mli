@@ -20,3 +20,5 @@ val is_guessed : position -> player -> bool
 (*Adds a position to the list of positions that the player has
  * already guessd*)
 val add_guess : position -> player -> unit
+
+val serialize_player : player -> string
