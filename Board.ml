@@ -88,12 +88,22 @@ let serialize_square sq = match !sq with
 let serialize_entry a = (serialize_position fst a)^"#"^
   (serialize_square snd)^"##"
 
-let serialize_board b = List.fold_left 
+let serialize_board b = List.fold_left
   (fun acc a -> (serialize_entry a)^acc) "" b
 
 let serialize_model m = serialize_board m.board ^ "###" ^
   serialize_board m.pboard ^ "###" ^
   List.fold_left (fun acc a -> (serialize_ship a)^acc) m.ships
+
+let deserialize_ship str =
+
+let deserialize_square str =
+
+let deserialize_entry str =
+
+let deserialize_board str =
+
+let deserialize_model str =
 
 
 
