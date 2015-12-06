@@ -122,9 +122,6 @@ let handle_local_vs _ : unit=
     draw_game game_model ["Player 2: place your ships"];
     place_ships (game_model.player2) game_model;
     draw_game game_model [""]
-    while true do
-        ()
-    done
 
 
 (* Main method *)
