@@ -258,7 +258,6 @@ let draw_blind () =
   set_color color4;
   fill_rect 0 0 600 600;
   set_color 0;
-  set_text_size 200;
   moveto 256 300;
   draw_string "Click when ready"
 
@@ -267,10 +266,25 @@ let draw_win_screen winning_player =
   set_color color4;
   fill_rect 0 0 600 600;
   set_color 0;
-  set_text_size 200;
   moveto 250 300;
   let text = "Player " ^ (string_of_int winning_player) ^ " wins!" in
   draw_string text
+
+(* Draws grey screens for types of network waiting *)
+let draw_net_wait in_game =
+  set_color color4;
+  fill_rect 0 0 600 600;
+  set_color 0;
+  if in_game then
+    let () =
+    moveto 211 300;
+    draw_string "Waiting for opponent's guess..."
+    in ()
+  else
+    let () =
+    moveto 235 300;
+    draw_string "Waiting for opponent..."
+    in ()
 
 (*
   Helper function for draw_stats to draw red text
@@ -411,8 +425,14 @@ let draw_game game console_list =
     else if (game.current_player) = 4 then
       draw_win_screen 1
     (* Player 2 win screen *)
-    else
+    else if (game.current_player) = 5 then
       draw_win_screen 2
+    else if (game.current_player) = 6 then
+      draw_net_wait false
+    else if (game.current_player) = 7 then
+      draw_net_wait true
+    else
+      failwith "Invalid game state"
   )
     (* Updates screen *)
     in synchronize ()
