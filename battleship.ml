@@ -4,10 +4,14 @@ open Connection
 open Player
 open Board
 open Graphics
+(*open Ai*)
 
 exception Invalid_Arguments;;
 exception Not_Implemented of string;;
 exception Local_Vs;;
+exception Local_Ai;;
+exception Net_Host;;
+exception Net_Conn;;
 
 (* Precondition: p1 and p2 are in the same either row or column *)
 let get_dist (p1:position) (p2:position) : int =
@@ -120,6 +124,38 @@ let do_guess pos curr opp : string =
     "hit"
     else "miss"
 
+let rec aigameloop g last : bool =
+    draw_game g [""];
+    match g.current_player with
+    | 1 ->
+    begin
+        let msg = ["It is your turn to guess!"] in
+        let _ = draw_game g msg in
+        let pos = get_valid_guess g.player1 in
+        let _ = add_guess pos g.player1 in
+        let h = do_guess pos g.player1 g.player2 in
+        let h' = [h]@msg in
+        let _ = draw_game g h' in
+        let _ = wait_next_event [Button_down] in
+        if is_won g.player2.model then
+        let _ = set_current g 4 in
+        let _ = aigameloop g 1 in
+        false
+        else
+        let _ = set_current g 3 in
+        let _ = aigameloop g 1 in
+        true
+    end
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7 -> failwith "Network!"
+    | 8 -> failwith "AI placing! Never should happen"
+    | 9 -> failwith "Waiting on AI"
+    | _ -> failwith "Never should happen"
+
 let rec localgameloop g last : bool=
     draw_game g [""];
     match g.current_player with
@@ -195,11 +231,191 @@ let handle_local_vs _ : unit=
     place_ships (game_model.player2) game_model;
     draw_game game_model [""];
     set_current game_model 3;
+
     let playing = ref true in
     while (!playing) do
         (playing := localgameloop game_model 2)
     done
 
+let rec network_host ic oc g : bool =
+    draw_game g [""];
+    match g.current_player with
+    | 1 ->
+    begin
+        let msg = ["It is your turn to guess!"] in
+        let _ = draw_game g msg in
+        let pos = get_valid_guess g.player1 in
+        let _ = add_guess pos g.player1 in
+        let h = do_guess pos g.player1 g.player2 in
+        let h' = [h]@msg in
+        let _ = draw_game g h' in
+        let _ = wait_next_event [Button_down] in
+        (* CHECK WIN *)
+        if is_won g.player2.model then
+        let _ = set_current g 4 in
+        (* Send *)
+        let sg = serialize_game g in
+        let _ = output_string oc (sg^"\n") in
+        (* End *)
+        let _ = shutdown_connection ic in
+        let _ = network_host ic oc g in
+        false
+        (* ***************************** *)
+        else
+        (* Change *)
+        let _ = set_current g 2 in
+        (* Send *)
+        let sg = serialize_game g in
+        let _ = output_string oc (sg^"\n") in
+        (* Change display *)
+        let _ = set_current g 7 in
+        let _ = draw_game g [""] in
+        (* Get new*)
+        let g' = deserialize_game (input_line ic) in
+        let _ = network_host ic oc g' in
+        true
+    end
+    | 4
+    | 5 ->
+    begin
+    let _ = draw_game g [""] in
+    let _ = wait_next_event [Button_down] in
+        false
+    end
+    | _ -> failwith "This shouldn't actually happen"
+
+let rec network_conn ic oc g : bool =
+    draw_game g [""];
+    match g.current_player with
+    | 2 ->
+    begin
+        let msg = ["It is your turn to guess!"] in
+        let _ = draw_game g msg in
+        let pos = get_valid_guess g.player2 in
+        let _ = add_guess pos g.player2 in
+        let h = do_guess pos g.player2 g.player1 in
+        let h' = [h]@msg in
+        let _ = draw_game g h' in
+        let _ = wait_next_event [Button_down] in
+        (* CHECK WIN *)
+        if is_won g.player1.model then
+        (* Change *)
+        let _ = set_current g 5 in
+        (* Send *)
+        let sg = serialize_game g in
+        let _ = output_string oc (sg^"\n") in
+        (* End *)
+        let _ = shutdown_connection ic in
+        let _ = network_conn ic oc g in
+        false
+        (* *************************** *)
+        else
+        (* Change *)
+        let _ = set_current g 1 in
+        (* Send *)
+        let sg = serialize_game g in
+        let _ = output_string oc (sg^"\n") in
+        (* Change display *)
+        let _ = set_current g 7 in
+        let _ = draw_game g [""] in
+        (* Get new *)
+        let g' = deserialize_game (input_line ic) in
+        let _ = network_conn ic oc g' in
+        true
+    end
+    | 4
+    | 5
+    | _ -> failwith "This shouldn't actually happen either"
+    (* Shutdown connection ic on end*)
+
+let handle_network_host _ : unit =
+    let server_hostname = Unix.gethostname () in
+    let serverport = Sys.argv.(3) in
+    let port = int_of_string serverport in
+    let my_addr = (Unix.gethostbyname(server_hostname)).Unix.h_addr_list.(0) in
+    let my_addr_s = Unix.string_of_inet_addr my_addr in
+    let sockaddr = Unix.ADDR_INET(my_addr, port) in
+    let serversock = Unix.socket Unix.PF_INET Unix.SOCK_STREAM 0 in
+
+    open_battleship_window ();
+    let p1 = Player.create_player ("") in
+    let p2 = Player.create_player ("") in
+    let game_model ={
+    current_player=1;
+    player1 = p1;
+    player2 = p2;} in
+    let _ = draw_game game_model [my_addr_s] in
+    set_current game_model 6;
+    draw_game game_model [""];
+    (* Displaying waiting for connection *)
+    let _ = Unix.bind serversock sockaddr in
+    let _ = Unix.listen serversock 1 in
+
+    (* Wait for connection *)
+    let (s, _) = Unix.accept serversock in
+    let inchan = Unix.in_channel_of_descr s and
+    outchan = Unix.out_channel_of_descr s in
+
+    (* Send Game *)
+    let sg = serialize_game game_model in
+    let _ = output_string outchan (sg^"\n") in
+    let _ = flush outchan in
+
+    (* Wait for game *)
+    let g' = deserialize_game (input_line inchan) in
+
+    let playing = ref true in
+    while (!playing) do
+        (playing := network_host inchan outchan g')
+    done
+
+let handle_network_conn _ : unit =
+    let serverip = Sys.argv.(3) in
+    let serverport = Sys.argv.(4) in
+    let server_addr = Unix.inet_addr_of_string serverip in
+    let port = int_of_string serverport in
+    let sockaddr = Unix.ADDR_INET(server_addr, port) in
+    let ic, oc = open_connection sockaddr in
+    let game_model = deserialize_game(input_line ic) in
+    (* Game gotten *)
+    let _ = open_battleship_window () in
+    let _ = draw_game game_model ["Player 2: place your carrier"] in
+    let _ = place_ships game_model.player2 game_model in
+    let _ = draw_game game_model [""] in
+    (* Game recreated *)
+    (* Send game *)
+    let _ = set_current game_model 1 in (* Player 1's turn *)
+    let sg = serialize_game game_model in
+    let _ = output_string oc (sg^"\n") in
+    let _ = flush oc in
+
+    (* Displays waiting for other player *)
+    let _ = set_current game_model 7 in
+    let _ = draw_game game_model [""] in
+
+    let playing = ref true in
+    while(!playing) do
+        (playing := network_conn ic oc game_model)
+    done
+
+let handle_ai _ : unit =
+    open_battleship_window ();
+    let p1 = Player.create_player (Sys.argv.(1)) in
+    let p2 = Player.create_player "AI" in
+    let game_model = {
+    current_player=1;
+    player1 = p1;
+    player2 = p2} in
+    draw_game game_model ["Player 1: plae your carrier"];
+    place_ships (game_model.player1) game_model;
+    set_current game_model 8; (* AI placing *)
+    draw_game game_model [""];
+    (* AI placement here *)
+    set_current game_model 3;
+    let playing = ref true in
+    while (!playing) do
+        (playing := aigameloop game_model 2)
+    done
 
 (* Main method *)
 try
@@ -218,7 +434,7 @@ with
             "Usage:
             Local AI: local <playername>
             Local VS: local <p1name> <p2name>
-            NET VS HOST: net host <playername>
-            NET VS CONN: net conn <playername> <hostip>"
+            NET VS HOST: net host <port>
+            NET VS CONN: net conn <hostip> <hostport>"
         in
         Printf.eprintf "%s\n%!" errmsg
