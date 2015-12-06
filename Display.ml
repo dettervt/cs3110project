@@ -76,6 +76,7 @@ let checkgrid (mouse_x: int) (mouse_y: int) (start_x: int)
 
 (* Returns the square the mouse is in and board it is on, or None *)
 let rec quantize_mouse () : (position * string) option =
+  let _ = wait_next_event [Button_down] in
   let (mouse_x, mouse_y) = mouse_pos () in
   let peg_grid_check = checkgrid mouse_x mouse_y 35 320 20 5 10 in
   let ship_grid_check = checkgrid mouse_x mouse_y 335 20 20 5 10 in
