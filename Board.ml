@@ -7,6 +7,7 @@ type ship = {name : ship_name; mutable hit : bool}
 
 type square =
   |Ship of ship
+  |Selected
   |Empty
   |Peg of bool
 
@@ -33,6 +34,9 @@ let create_model () = let pos = position_list in
   let shp_bd = List.fold_left (fun acc a -> acc@[(a, ref Empty)]) [] pos in
   let peg_bd = List.fold_left (fun acc a -> acc@[(a, ref Empty) ]) [] pos in
   {board = shp_bd; pboard = peg_bd ; ships = []}
+
+let set_selected pos pm : unit =
+  (List.assoc pos pm.board) := (Selected)
 
 let rec add_ship shp plist bd = match plist with
   |[] -> ()

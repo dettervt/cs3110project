@@ -13,6 +13,7 @@ type ship = {name : ship_name ; mutable hit : bool}
  * Ship of type ship, an empty space, or a Peg of type bool*)
 type square =
   |Ship of ship
+  |Selected
   |Empty
   |Peg of bool
 
@@ -27,6 +28,9 @@ type board = (position * square ref) list
 
 type player_model =
   {board : board; pboard : board; mutable ships : ship list}
+
+(* TODO: Document me *)
+val set_selected : position -> player_model -> unit
 
 (* TODO: Document me *)
 val create_model : unit -> player_model
