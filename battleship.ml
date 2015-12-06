@@ -102,31 +102,36 @@ let place_ship (s:ship_name) (pm:player_model) : unit =
 
 let place_ships (p:player) (game_model:game): unit =
     place_ship Carrier p.model;
-    draw_game game_model [""];
+    draw_game game_model ["Place your battleship"];
     place_ship Battleship p.model;
-    draw_game game_model [""];
+    draw_game game_model ["Place your destroyer"];
     place_ship Destroyer p.model;
-    draw_game game_model [""];
+    draw_game game_model ["Place your cruiser"];
     place_ship Cruiser p.model;
-    draw_game game_model [""];
+    draw_game game_model ["Place your patrol boat"];
     place_ship Patrol p.model;
-    draw_game game_model [""]
+    draw_game game_model ["Finished placing"]
 
-let do_guess pos curr opp : unit =
+let do_guess pos curr opp : string =
     let hit = check_guess pos opp.model in
     let _ = update_peg pos curr.model hit in
-    if hit then update_board pos opp.model
-    else ()
+    if hit then
+    let _ = update_board pos opp.model in
+    "hit"
+    else "miss"
 
 let rec localgameloop g last : bool=
     draw_game g [""];
     match g.current_player with
     | 1 ->
     begin
+        let msg = ["It is your turn to guess!"] in
+        let _ = draw_game g msg in
         let pos = get_valid_guess g.player1 in
         let _ = add_guess pos g.player1 in
-        let _ = do_guess pos g.player1 g.player2 in
-        let _ = draw_game g [""] in
+        let h = do_guess pos g.player1 g.player2 in
+        let h' = [h]@msg in
+        let _ = draw_game g h' in
         let _ = wait_next_event [Button_down] in
         if is_won g.player2.model then
         let _ = set_current g 4 in
@@ -139,10 +144,13 @@ let rec localgameloop g last : bool=
     end
     | 2 ->
     begin
+        let msg = ["It is your turn to guess!"] in
+        let _ = draw_game g msg in
         let pos = get_valid_guess g.player2 in
         let _ = add_guess pos g.player2 in
-        let _ = do_guess pos g.player2 g.player1 in
-        let _ = draw_game g [""] in
+        let h = do_guess pos g.player2 g.player1 in
+        let h' = [h]@msg in
+        let _ = draw_game g h' in
         let _ = wait_next_event [Button_down] in
         if is_won g.player1.model then
         let _ = set_current g 5 in
@@ -177,13 +185,13 @@ let handle_local_vs _ : unit=
     current_player =1;
     player1 = p1;
     player2 = p2} in
-    draw_game game_model ["Player 1: place your ships"];
+    draw_game game_model ["Player 1: place your carrier"];
     place_ships (game_model.player1) game_model;
     set_current game_model 3;
     draw_game game_model [""];
     let _ = wait_next_event [Button_down] in
     set_current game_model 2;
-    draw_game game_model ["Player 2: place your ships"];
+    draw_game game_model ["Player 2: place your carrier"];
     place_ships (game_model.player2) game_model;
     draw_game game_model [""];
     set_current game_model 3;
