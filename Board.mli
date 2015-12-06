@@ -62,6 +62,7 @@ val update_board : position -> player_model -> unit
  * the given position. If it did, then a Peg of true is placed*)
 val update_peg : position -> player_model -> bool -> unit
 
+
 val serialize_position : position -> string
 
 val serialize_ship : ship -> string
@@ -71,3 +72,13 @@ val serialize_square : square -> string
 val serialize_entry : position * square ref -> string
 
 val serialize_model : player_model -> string
+
+val deserialize_position : string -> position
+
+val deserialize_ship : string -> ship
+
+val deserialize_square : string -> square
+
+val deserialize_entry : string -> position * square ref
+
+val deserialize_model : string -> player_model
