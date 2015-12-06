@@ -208,6 +208,15 @@ let draw_ship_piece x y hit identifier =
   set_color color14;
   draw_string identifier
 
+(*
+  Draws a green square to indicated the currently
+  selected square, for ship placement
+*)
+let draw_selection x y =
+  set_color color5;
+  fill_rect (x + 1) (y + 1) 18 18;
+  set_color 0
+
 (* Draws the ship board, given a board *)
 let draw_ship_grid board =
   draw_play_board 335 20;
@@ -237,6 +246,7 @@ let draw_ship_grid board =
           | Patrol ->
             draw_ship_piece xc yc c.hit "PB"
         )
+        | Selected -> draw_selection xc yc
         | _ -> ()
       )
       in ship_traverse x y w s d (count + 1) t
