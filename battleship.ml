@@ -146,12 +146,26 @@ let rec aigameloop g last : bool =
         let _ = aigameloop g 1 in
         true
     end
-    | 2
-    | 3
+    | 2 ->
+    begin
+        let pos = random_guess g in
+        let _ = add_guess pos g.player2 in
+        let _ = do_guess pos g.player2 g.player1 in
+        if is_won g.player1.model then
+        let _ = set_current g 5 in
+        let _ = aigameloop g 2 in
+        false
+        else
+        let _ = set_current g 1 in
+        let _ = aigameloop g 2 in
+        false
+    end
     | 4
-    | 5
-    | 6
-    | 7 -> failwith "Network!"
+    | 5 ->
+    begin
+        let _ = wait_next_event [Button_down] in
+        false
+    end
     | 8 -> failwith "AI placing! Never should happen"
     | 9 -> failwith "Waiting on AI"
     | _ -> failwith "Never should happen"
@@ -426,6 +440,7 @@ try
     if(arglen = 4) then raise (Not_Implemented "Net host");
     if(arglen = 5) then raise (Not_Implemented "Net conn");
 with
+    | Local_Ai -> (handle_ai ())
     | Local_Vs -> (handle_local_vs ())
     | Not_Implemented s ->
         Printf.eprintf "%s not implemented.\n%!" s

@@ -1,0 +1,635 @@
+commit 7cdf7faac56f968b8211a7ae7349ea44955e903c
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 23:48:45 2015 -0500
+
+    All but AI
+
+ AI.ml         | 19 ++++++++++++++-----
+ Board.ml      | 55 +++++++++++++++++++++++++++++++++++++++----------------
+ Board.mli     |  3 ++-
+ Player.ml     | 13 +++++++++----
+ battleship.ml |  2 +-
+ 5 files changed, 65 insertions(+), 27 deletions(-)
+
+commit 0faa45d942724272ce29691354b37ed8090aede4
+Merge: b334fa5 a538564
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 23:41:44 2015 -0500
+
+    board Merge branch 'master' of https://github.com/dettervt/cs3110project
+
+commit b334fa5e3557efd7911a5dad2a13ac89bc4b58b0
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 23:41:23 2015 -0500
+
+    thisisit
+
+ Board.ml  | 34 +++++++++++++++++++++++++++-------
+ Board.mli |  1 +
+ 2 files changed, 28 insertions(+), 7 deletions(-)
+
+commit a538564560fc0159f82388c89d99b4f875b20378
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 23:22:55 2015 -0500
+
+    Network should be done
+
+ battleship.ml | 220 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 218 insertions(+), 2 deletions(-)
+
+commit 68babb62ef4776a9ebe6a24b64f799a1dfcfc05b
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 22:46:52 2015 -0500
+
+    Yeeeeeeeeeeeeeeeeeeeeeeeeeeee
+
+ Board.ml | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+commit e5751adf2192646b5332c42c8cd24bcc7e2e4227
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 22:41:06 2015 -0500
+
+    Added deserialization to signature
+
+ Board.mli | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+commit e23e0d340af2e9ef9086b990926426c5f2968c39
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 22:34:06 2015 -0500
+
+    deserialize and names fixed
+
+ Game.ml  | 8 +++++++-
+ Game.mli | 7 ++++---
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+commit 50b43382119ca74acc2a7a89fe00489dc08b03b6
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 22:31:42 2015 -0500
+
+    Deserialze working (?)
+
+ Player.ml  | 10 +++++++++-
+ Player.mli |  2 ++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+commit 9efcb1285373a6db913a478a899c6a4d8cce492a
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 21:59:48 2015 -0500
+
+    Initial AI mli
+
+ AI.mli | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+commit 5874deb71c55793555144bde9c661a06355a52ec
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 21:59:35 2015 -0500
+
+    Initial AI code
+
+ AI.ml | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+commit 68a8e560749354f12ae2cde7390f16a6024a1420
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 22:04:59 2015 -0500
+
+    Serialized
+
+ Game.ml  |  8 ++++++++
+ Game.mli | 11 ++++++++---
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
+commit b1f17db32cfdda8c8cdae3451b787186c6017dbc
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 22:03:42 2015 -0500
+
+    Serialization commited
+
+ Player.ml  | 5 +++++
+ Player.mli | 2 ++
+ 2 files changed, 7 insertions(+)
+
+commit a9bc20af32e98ccbde6d096e141735fb40d683e5
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 22:01:23 2015 -0500
+
+    Serialization added
+
+ Board.ml  | 33 +++++++++++++++++++++++++++++++++
+ Board.mli | 10 ++++++++++
+ 2 files changed, 43 insertions(+)
+
+commit fbf5ed5d022c62918bf869845b298766f4898f8a
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 21:40:21 2015 -0500
+
+    Added AI screens
+
+ Display.ml | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+commit f5ccae209ece396c365ece5208da3e36d6d4f72f
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 21:02:07 2015 -0500
+
+    Added network waiting screens
+
+ Display.ml | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
+
+commit 6da8cd37307a88e88053f17957313a9e3e53fde4
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 20:52:01 2015 -0500
+
+    Update #0
+
+ battleship.ml | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
+
+commit 72199b8becbb6766b160076d07f4546bfaca1242
+Merge: a9ada56 9a4de6e
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 20:36:51 2015 -0500
+
+    Merge branch 'master' of https://github.com/dettervt/cs3110project
+
+commit 9a4de6e5e409fcfbbaf01f0a4bc80b7e255c2306
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 20:39:33 2015 -0500
+
+    Added selection support
+
+ Board.ml      | 4 ++++
+ Board.mli     | 4 ++++
+ battleship.ml | 1 +
+ 3 files changed, 9 insertions(+)
+
+commit a9ada56bf83422fb8685e59a691b2e4a6ccea837
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 20:36:32 2015 -0500
+
+    Added green selection for ship placements
+
+ Display.ml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+commit abfd99acaa407c240194fa8c97d57b72a71c745a
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 20:22:48 2015 -0500
+
+    Fixed a color error in the Stats window
+
+ Display.ml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 07817ac60febcaf8f9ae846c04408d07e08f7f0b
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 20:25:13 2015 -0500
+
+    Fixed a bunch of things
+
+ battleship.ml | 36 ++++++++++++++++++++++--------------
+ 1 file changed, 22 insertions(+), 14 deletions(-)
+
+commit 643f574271cfae49fc61424733762baaf1a134dd
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 20:10:27 2015 -0500
+
+    It wanted me to do this
+
+ Display.ml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 406332e0c14c5af57225859fdf178006206c7d2d
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 20:10:29 2015 -0500
+
+    BASIC FUNCTIONALITY
+
+ battleship.ml | 69 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 67 insertions(+), 2 deletions(-)
+
+commit e72775ce01b66f020f3ff446441eefcad875bc47
+Merge: e58dace 29c3bde
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 19:37:56 2015 -0500
+
+    Merge branch 'master' of https://github.com/dettervt/cs3110project
+
+commit e58dace5ad1534015a59de0473f0326e88728c6d
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 19:37:46 2015 -0500
+
+    Bug-fixed Display.ml, console fixed, text x-value offset fixed, blind-text rendering after window deletion fixed
+
+ Display.ml | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+commit 29c3bde70f5ad1aeb1a7006b989477506ae343fa
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 19:19:42 2015 -0500
+
+    loop
+
+ Gameloop.ml | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+commit 3a8f1284e8e8e8b8de32c752edf81ff47809f9a4
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 19:15:15 2015 -0500
+
+    Getting there
+
+ battleship.ml | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit f661c4e52ceaefa1f68b19228adce81168c82c60
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 19:10:05 2015 -0500
+
+    Things *almost* working
+
+ battleship.ml | 3 ---
+ 1 file changed, 3 deletions(-)
+
+commit 972d676761cc5b64644e99309bb71771fb222703
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 19:09:42 2015 -0500
+
+    The start of things really working
+
+ Display.ml     |  3 +-
+ battleship.ml  | 90 +++++++++++++++++++++++++++++++++++++++++++++++-----------
+ battleship.mli |  1 +
+ 3 files changed, 76 insertions(+), 18 deletions(-)
+
+commit b50bbc818fd295b81a216e32da668c17eaa68a68
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 18:22:10 2015 -0500
+
+    "Probably working complete version of Display.ml"
+
+ Display.ml | 33 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
+
+commit 1cecce607957a015f936de4b9aed775a9c89b3a9
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 17:45:31 2015 -0500
+
+    Added a function to .mli
+
+ Display.mli | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit a295de607b6e362188e8876231948e6e7eac5fb3
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 17:45:19 2015 -0500
+
+    Some minor changes
+
+ Display.ml | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+commit 27d7705f94714bf7693457e884826f22eae30116
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 17:39:53 2015 -0500
+
+    Battleship work
+
+ Board.mli     |  2 +-
+ Game.ml       |  4 +++-
+ Game.mli      | 10 ++++------
+ battleship.ml | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 4 files changed, 67 insertions(+), 10 deletions(-)
+
+commit cbb68e0a1686d2058b32064536101262f16bcd56
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 17:39:09 2015 -0500
+
+    Still the same old same old
+
+ Display.mli | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit d689baee5a4555efe8624be0a5198e6a9b01bf00
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 17:38:57 2015 -0500
+
+    Soooo close - at least it compiles
+
+ Display.ml | 27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
+
+commit 42fc17bd8e13a0f67b5c3e7031bd04399b0b5060
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 17:16:17 2015 -0500
+
+    Mli is officially done
+
+ Display.mli | 53 +++++------------------------------------------------
+ 1 file changed, 5 insertions(+), 48 deletions(-)
+
+commit ca6a97761dbff58fc96d4d2772ea07451fe0c24e
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 17:16:05 2015 -0500
+
+    Basically done. Basically
+
+ Display.ml | 82 ++++++++++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 59 insertions(+), 23 deletions(-)
+
+commit 69158899ca35705ee860fcdab09ac997860ff2a5
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 17:15:42 2015 -0500
+
+    I didn't change nothin' I swear officer
+
+ Board.ml | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
+
+commit c695b0d8db0095089a803a557d5f4dd4693907a6
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 16:31:44 2015 -0500
+
+    "Displaying things on the boards works now"
+
+ Display.ml | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 53 insertions(+), 9 deletions(-)
+
+commit b57bb3c11c8e1e37a9b5f66948c7e3a3729b2eb3
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 16:26:01 2015 -0500
+
+    Assorted bug fixes
+
+ battleship.ml | 20 ++++++++++++++------
+ connection.ml |  2 +-
+ 2 files changed, 15 insertions(+), 7 deletions(-)
+
+commit 3865b06d10bb03244e5c7aea9f63a2868eaecf8f
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 16:14:19 2015 -0500
+
+    Fixed model syntax errors
+
+ Board.mli  | 3 +++
+ Player.ml  | 8 ++++----
+ Player.mli | 6 +++---
+ 3 files changed, 10 insertions(+), 7 deletions(-)
+
+commit 35c4b2adc8ce9308d721b129818bcec167a52050
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 16:06:52 2015 -0500
+
+    Fixed board.mli discrepancy
+
+ Board.mli | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+commit d04e80f0459ffe2f2c8916d504950190b020ddf2
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Sat Dec 5 16:00:23 2015 -0500
+
+    Added battleship and connection
+
+ .gitignore     |   2 ++
+ battleship.ml  |  29 +++++++++++++++++++++++++++++
+ connection.ml  |  11 +++++++++++
+ connection.mli |  14 ++++++++++++++
+ design.pdf     | Bin 479101 -> 484514 bytes
+ design.tex     |  24 ++++++++++++++++--------
+ 6 files changed, 72 insertions(+), 8 deletions(-)
+
+commit ad86b37924532f533419ac439a707381f5732359
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 15:32:15 2015 -0500
+
+    fixed
+
+ Player.ml | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+commit 5e4a7dc5232c35614de7847a8b65588cf0e2914a
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 15:26:01 2015 -0500
+
+    Some more stuff, like ships and things, almost done
+
+ Display.ml | 55 ++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 50 insertions(+), 5 deletions(-)
+
+commit b98972825f8fad2b3a3959befd1eba2d674a29de
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 14:27:17 2015 -0500
+
+    fixed
+
+ Game.ml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 0fdd3b56939148f5928bd8ccfe473e55e3b030f9
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 14:23:08 2015 -0500
+
+    Stuff to add
+
+ Game.ml  | 10 ++++++++++
+ Game.mli |  9 +++++----
+ 2 files changed, 15 insertions(+), 4 deletions(-)
+
+commit c15527841d9166f602ca6785c8de6aa129ee56e9
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 14:09:19 2015 -0500
+
+    fixed
+
+ Player.mli | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+commit 5c7a40e57343cc8ce1eaf546a00c0c46004a0426
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 14:07:48 2015 -0500
+
+    Cool Stuff
+
+ Board.ml  | 2 +-
+ Player.ml | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+commit 32e136897d4f99d37e88b7dfc582857153bc625f
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Sat Dec 5 13:57:11 2015 -0500
+
+    Tentatively finished
+
+ Player.ml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+commit b97ee261ff367f64c24fa5f585a1945f7d4da7c2
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Sat Dec 5 03:47:56 2015 -0500
+
+    Bevels and embossing, more text labeling
+
+ Display.ml | 87 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 82 insertions(+), 5 deletions(-)
+
+commit e485e483bc01e6e5faa4e9c4c6dfea282762f37c
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Thu Dec 3 23:51:17 2015 -0500
+
+    A lot of display code, waiting on structures
+
+ Display.ml | 150 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 150 insertions(+)
+
+commit 505173205c39147e56f4601f6d2b560cfad45774
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Thu Dec 3 23:50:54 2015 -0500
+
+    Not many changes here
+
+ Display.mli | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 91434d0b9e59284e1bd119b05d013a0fd7a992ae
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Thu Dec 3 23:35:26 2015 -0500
+
+    oops
+
+ Board.ml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 006db3161ee5fae9c2aaaad3c147393ea0b0e419
+Merge: eb5ab66 3468135
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Thu Dec 3 23:32:57 2015 -0500
+
+    message Merge branch 'master' of https://github.com/dettervt/cs3110project
+
+commit eb5ab66d83656bdc751a3586e614f9e09078b5e5
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Thu Dec 3 23:32:14 2015 -0500
+
+    Descriptions still need changing
+
+ Board.mli | 33 ++++++++++++++++++---------------
+ 1 file changed, 18 insertions(+), 15 deletions(-)
+
+commit f454ddbcab251a4a23a10e3c826ebd91af01af5d
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Thu Dec 3 23:31:58 2015 -0500
+
+    Current Board
+
+ Board.ml | 70 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+
+commit 346813544f3a763f5455a567674b9cd4f7ceb1f6
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Wed Nov 11 19:28:16 2015 -0500
+
+    Updated .gitignore
+
+ .gitignore | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 0ad30caed325835528221b8de4777c9645bef504
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Wed Nov 11 19:26:49 2015 -0500
+
+    Milestone 1 Done
+
+ .gitignore |   2 ++
+ design.pdf | Bin 164437 -> 479101 bytes
+ design.tex | 116 +++++++++++++++++++++++++++++++++++++++++++++++++------------
+ design.toc |   1 +
+ 4 files changed, 97 insertions(+), 22 deletions(-)
+
+commit e424ce5ab84f54d733da268c36e41a2b3345ca91
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Wed Nov 11 18:45:22 2015 -0500
+
+    mli for Player
+
+ Player.mli | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit f86847da027f950afc27db8db62707c80645f24b
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Wed Nov 11 18:43:37 2015 -0500
+
+    mli for Game
+
+ Game.mli | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+commit c70e6762ebcee6629d7b1fe98caee10fe4a82d51
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Wed Nov 11 18:40:35 2015 -0500
+
+    mli for Board
+
+ Board.mli | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
+
+commit ac5c9b0434726bfbe6d75076b003e15d6540a689
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Wed Nov 11 18:25:46 2015 -0500
+
+    Player mli
+
+ Player.mli | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+commit dd311095c8c5f4cf31427bcdff97312a5d622f4d
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Wed Nov 11 18:25:26 2015 -0500
+
+    Game mli
+
+ Game.mli | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+commit 1dfbacf3b9a1b5c92ff551c34f88f62693dc620e
+Author: Robert Barrett <rpb83@cornell.edu>
+Date:   Wed Nov 11 18:24:34 2015 -0500
+
+    Board mlis
+
+ Board.mli | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+commit 4e7de44728b9a8343fb59a940d83e1b063dda15e
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Wed Nov 11 18:03:44 2015 -0500
+
+    Basic display sig
+
+ Display.mli | 58 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+
+commit 384999ae776a2a1215b6ac9b44e98d0d545e3f78
+Author: Ian Hoffman <ijh6@cornell.edu>
+Date:   Wed Nov 11 18:03:30 2015 -0500
+
+    Basic controller sig
+
+ Controller.mli | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+commit 0732d7166339068e094f6b3151385cb47c380bff
+Author: Dan Etter <dettervt@gmail.com>
+Date:   Wed Nov 11 18:14:04 2015 -0500
+
+    Design stuff
+
+ .gitignore |  10 +++++++++
+ design.pdf | Bin 0 -> 164437 bytes
+ design.tex |  73 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 83 insertions(+)
