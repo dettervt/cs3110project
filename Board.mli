@@ -61,3 +61,13 @@ val update_board : position -> player_model -> unit
  * did not hit a ship, then a Peg of false is placed on the board at
  * the given position. If it did, then a Peg of true is placed*)
 val update_peg : position -> player_model -> bool -> unit
+
+val serialize_position : position -> string
+
+val serialize_ship : ship -> string
+
+val serialize_square : square -> string
+
+val serialize_entry : position * square ref -> string
+
+val serialize_model : player_model -> string

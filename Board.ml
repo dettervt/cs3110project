@@ -65,6 +65,39 @@ let update_board pos bd = let a = !(List.assoc pos bd.board) in
 
 let update_peg pos bd guessed = List.assoc pos bd.pboard := (Peg(guessed))
 
+let serialize_position p = let (c,i) = p in (String.make 1 c)^(string_of_int i)^"."
+
+let matchtf i = match i with
+  |true -> "T"
+  |false -> "F"
+
+let serialize_ship s = match s.name with
+  |Carrier -> "A" ^ (matchtf s.hit) ^ "$%"
+  |Battleship -> "B" ^ (matchtf s.hit) ^ "$%"
+  |Destroyer -> "D" ^ (matchtf s.hit) ^ "$%"
+  |Cruiser -> "C" ^ (matchtf s.hit) ^ "$%"
+  |Patrol -> "Z"^ (matchtf s.hit) ^ "$%"
+
+
+let serialize_square sq = match !sq with
+  |Ship a -> serialize_ship a
+  |Empty -> "E"
+  |Peg p -> "P"^(matchtf p)
+  |Selected -> "S"
+
+let serialize_entry a = (serialize_position fst a)^"#"^
+  (serialize_square snd)^"##"
+
+let serialize_board b = List.fold_left 
+  (fun acc a -> (serialize_entry a)^acc) "" b
+
+let serialize_model m = serialize_board m.board ^ "###" ^
+  serialize_board m.pboard ^ "###" ^
+  List.fold_left (fun acc a -> (serialize_ship a)^acc) m.ships
+
+
+
+
 
 
 
