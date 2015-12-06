@@ -286,6 +286,22 @@ let draw_net_wait in_game =
     draw_string "Waiting for opponent..."
     in ()
 
+(* Draws grey screens for types of AI waiting *)
+let draw_AI_wait guessing =
+  set_color color4;
+  fill_rect 0 0 600 600;
+  set_color 0;
+  if guessing then
+    let () =
+    moveto 229 300;
+    draw_string "Waiting for AI's guess..."
+    in ()
+  else
+    let () =
+    moveto 208 300;
+    draw_string "Waiting for AI to place ships..."
+    in ()
+
 (*
   Helper function for draw_stats to draw red text
   over a player's destroyed ships
@@ -427,10 +443,19 @@ let draw_game game console_list =
     (* Player 2 win screen *)
     else if (game.current_player) = 5 then
       draw_win_screen 2
+    (* Waiting for opponent to connect screen *)
     else if (game.current_player) = 6 then
       draw_net_wait false
+    (* Waiting for opponent to make a guess screen *)
     else if (game.current_player) = 7 then
       draw_net_wait true
+    (* Waiting for AI to place ships *)
+    else if (game.current_player) = 8 then
+      draw_AI_wait false
+    (* Waiting for AI to make a move *)
+    else if (game.current_player) = 9 then
+      draw_AI_wait true
+    (* This shouldn't happen *)
     else
       failwith "Invalid game state"
   )
