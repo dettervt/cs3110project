@@ -39,7 +39,6 @@ let get_between_int p1 p2 : position list =
 (* Same char and i1 > i2 *)
 let get_between_char p1 p2 : position list =
     let dist = get_dist p1 p2 in
-    let _ = Printf.printf "%d\n" dist in
     let (c,s) = p2 in
     match dist with
     | 2 -> [p1; p2]
@@ -72,6 +71,10 @@ let rec get_valid_pos (s:string) (pm:player_model) : position =
     match check_guess pos pm with
     | true -> get_valid_pos s pm
     | false -> pos
+
+let rec get_valid_guess (p:player) : position =
+    let pos = get_valid_click "pegboard" in
+    if is_guessed pos p then get_valid_guess p else pos
 
 let rec get_valid_p2 (p1:position) (pm:player_model) (shiplen:int) : position =
     let (c1, i1) = p1 in
@@ -109,6 +112,63 @@ let place_ships (p:player) (game_model:game): unit =
     place_ship Patrol p.model;
     draw_game game_model [""]
 
+let do_guess pos curr opp : unit =
+    let hit = check_guess pos opp.model in
+    let _ = update_peg pos curr.model hit in
+    if hit then update_board pos opp.model
+    else ()
+
+let rec localgameloop g last : bool=
+    draw_game g [""];
+    match g.current_player with
+    | 1 ->
+    begin
+        let pos = get_valid_guess g.player1 in
+        let _ = add_guess pos g.player1 in
+        let _ = do_guess pos g.player1 g.player2 in
+        let _ = draw_game g [""] in
+        let _ = wait_next_event [Button_down] in
+        if is_won g.player2.model then
+        let _ = set_current g 4 in
+        let _ = localgameloop g 1 in
+        false
+        else
+        let _ = set_current g 3 in
+        let _ = localgameloop g 1 in
+        true
+    end
+    | 2 ->
+    begin
+        let pos = get_valid_guess g.player2 in
+        let _ = add_guess pos g.player2 in
+        let _ = do_guess pos g.player2 g.player1 in
+        let _ = draw_game g [""] in
+        let _ = wait_next_event [Button_down] in
+        if is_won g.player1.model then
+        let _ = set_current g 5 in
+        let _ = localgameloop g 2 in
+        false
+        else
+        let _ = set_current g 3 in
+        let _ = localgameloop g 2 in
+        true
+    end
+    | 3 ->
+    begin
+        let _ = wait_next_event [Button_down] in
+        match last with
+        | 1 -> set_current g 2; localgameloop g 1
+        | 2 -> set_current g 1; localgameloop g 2
+        | _ -> set_current g 2; localgameloop g 1
+    end
+    | 4
+    | 5 ->
+    begin
+        let _ = wait_next_event [Button_down] in
+        false
+    end
+    | _ -> failwith "Never should happen"
+
 let handle_local_vs _ : unit=
     open_battleship_window ();
     let p1 = Player.create_player (Sys.argv.(1)) in
@@ -125,7 +185,12 @@ let handle_local_vs _ : unit=
     set_current game_model 2;
     draw_game game_model ["Player 2: place your ships"];
     place_ships (game_model.player2) game_model;
-    draw_game game_model [""]
+    draw_game game_model [""];
+    set_current game_model 3;
+    let playing = ref true in
+    while (!playing) do
+        (playing := localgameloop game_model 2)
+    done
 
 
 (* Main method *)
