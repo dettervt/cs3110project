@@ -89,21 +89,41 @@ let serialize_entry a = (serialize_position fst a)^"#"^
   (serialize_square snd)^"##"
 
 let serialize_board b = List.fold_left
-  (fun acc a -> (serialize_entry a)^acc) "" b
+  (fun acc a -> acc^(serialize_entry a)) "" b
 
 let serialize_model m = serialize_board m.board ^ "###" ^
   serialize_board m.pboard ^ "###" ^
-  List.fold_left (fun acc a -> (serialize_ship a)^acc) m.ships
+  List.fold_left (fun acc a -> acc^(serialize_ship a)) "" m.ships
 
-let deserialize_ship str =
+let deserialize_position s = let first = String.get str 0 in let sec =
+  String.get str 1 in (first, int_of_char sec) 
 
-let deserialize_square str =
+let deserialize_ship str = let first = String.get str 0 in let sec = 
+  String.get str 1 in match first with
+    |'A' ->  {name = Carrier;hit = (sec = 'T')}
+    |'B' ->  {name = Battleship;hit = (sec = 'T')}
+    |'C' ->  {name = Destroyer;hit = (sec = 'T')}
+    |'D' ->  {name = Cruiser;hit = (sec = 'T')}
+    |'Z' ->  {name = Patrol;hit = (sec = 'T')}
+    |_ -> failwith "not possible"
 
-let deserialize_entry str =
+let deserialize_square str = let lst =
 
-let deserialize_board str =
+let deserialize_entry str = let lst = 
+  Str.split (Str.regex "#") str in 
+    (deserialize_position (List.hd lst), deserialize_square (List.tl lst))
 
-let deserialize_model str =
+let deserialize_board str = let lst = 
+  Str.split (Str.regex "##") str in
+    List.fold_left (fun acc a -> acc@(deserialize_entry a)) [] lst
+
+let deserialize_model str = let lst = 
+  Str.split (Str.regex "###") str in match lst with
+    |x::y::z::_ -> {board = deserialize_board x;
+      pboard = deserialize_board y; ships = 
+      List.fold_left (fun acc a -> acc@(deserialize_ship a)) [] 
+        (Str.split (Str.regexp "$%") z)}
+
 
 
 
