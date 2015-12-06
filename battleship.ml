@@ -3,6 +3,7 @@ open Game
 open Connection
 open Player
 open Board
+open Graphics
 
 exception Invalid_Arguments;;
 exception Not_Implemented of string;;
@@ -118,6 +119,9 @@ let handle_local_vs _ : unit=
     player2 = p2} in
     draw_game game_model ["Player 1: place your ships"];
     place_ships (game_model.player1) game_model;
+    set_current game_model 3;
+    draw_game game_model [""];
+    let _ = wait_next_event [Button_down] in
     set_current game_model 2;
     draw_game game_model ["Player 2: place your ships"];
     place_ships (game_model.player2) game_model;
