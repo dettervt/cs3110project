@@ -15,7 +15,8 @@ val inc_turn : game -> unit
 val set_current : game -> int -> unit
 
 (*Serializes the game*)
-val serialize : game -> string
+val serialize_game : game -> string
 
-(*deserializes the game*)
-(*val deserialize : sting -> game*)
+val deserialize_game : string -> game
+
+
