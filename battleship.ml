@@ -4,7 +4,7 @@ open Connection
 open Player
 open Board
 open Graphics
-(*open Ai*)
+open AI
 
 exception Invalid_Arguments;;
 exception Not_Implemented of string;;

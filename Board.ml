@@ -65,6 +65,19 @@ let update_board pos bd = let a = !(List.assoc pos bd.board) in
 
 let update_peg pos bd guessed = List.assoc pos bd.pboard := (Peg(guessed))
 
+let serialize_position p = failwith "unimplemented"
+let serialize_square s = failwith "unimplemented"
+let serialize_ship s = failwith "unimplemented"
+let serialize_entry p = failwith "unimplemented"
+let serialize_model p = failwith "unimplemented"
+let deserialize_position s = failwith "unimplemented"
+let deserialize_ship s =failwith "unimplemented"
+let deserialize_square s = failwith "unimplemented"
+let deserialize_entry s = failwith "unimplemented"
+let deserialize_model s = failwith "unimplemented"
+let serialize_board b = failwith "unimplemented"
+
+(*
 let serialize_position p = let (c,i) = p in (String.make 1 c)^(string_of_int i)^"."
 
 let matchtf i = match i with
@@ -78,15 +91,21 @@ let serialize_ship s = match s.name with
   |Cruiser -> "C" ^ (matchtf s.hit) ^ "$%"
   |Patrol -> "Z"^ (matchtf s.hit) ^ "$%"
 
+let serialize_ship_sq s = match s.name with
+  |Carrier -> "A" ^ (matchtf s.hit)
+  |Battleship -> "B" ^ (matchtf s.hit)
+  |Destroyer -> "D" ^ (matchtf s.hit)
+  |Cruiser -> "C" ^ (matchtf s.hit)
+  |Patrol -> "Z"^ (matchtf s.hit)
 
 let serialize_square sq = match !sq with
-  |Ship a -> serialize_ship a
+  |Ship a -> serialize_ship_sq a
   |Empty -> "E"
   |Peg p -> "P"^(matchtf p)
   |Selected -> "S"
 
-let serialize_entry a = (serialize_position fst a)^"#"^
-  (serialize_square snd)^"##"
+let serialize_entry a = (serialize_position (fst a))^"#"^
+  (serialize_square (snd a) )^"##"
 
 let serialize_board b = List.fold_left
   (fun acc a -> acc^(serialize_entry a)) "" b
@@ -95,10 +114,12 @@ let serialize_model m = serialize_board m.board ^ "###" ^
   serialize_board m.pboard ^ "###" ^
   List.fold_left (fun acc a -> acc^(serialize_ship a)) "" m.ships
 
-let deserialize_position s = let first = String.get str 0 in let sec =
-  String.get str 1 in (first, int_of_char sec) 
+let deserialize_position s =
+  failwith "Almost :("
+(*) let first = String.get str 0 in let sec =
+  String.get str 1 in (first, int_of_char sec)*)
 
-let deserialize_ship str = let first = String.get str 0 in let sec = 
+let deserialize_ship str = let first = String.get str 0 in let sec =
   String.get str 1 in match first with
     |'A' ->  {name = Carrier;hit = (sec = 'T')}
     |'B' ->  {name = Battleship;hit = (sec = 'T')}
@@ -107,25 +128,27 @@ let deserialize_ship str = let first = String.get str 0 in let sec =
     |'Z' ->  {name = Patrol;hit = (sec = 'T')}
     |_ -> failwith "not possible"
 
-let deserialize_square str = let lst =
+let deserialize_square str =
+    failwith "Unimplemented :("
 
-let deserialize_entry str = let lst = 
-  Str.split (Str.regex "#") str in 
-    (deserialize_position (List.hd lst), deserialize_square (List.tl lst))
 
-let deserialize_board str = let lst = 
+let deserialize_entry str = let lst =
+  Str.split (Str.regex "#") str in
+  (deserialize_position (List.hd lst), deserialize_square (List.tl lst))
+
+let deserialize_board str = let lst =
   Str.split (Str.regex "##") str in
     List.fold_left (fun acc a -> acc@(deserialize_entry a)) [] lst
 
-let deserialize_model str = let lst = 
+let deserialize_model str = let lst =
   Str.split (Str.regex "###") str in match lst with
     |x::y::z::_ -> {board = deserialize_board x;
-      pboard = deserialize_board y; ships = 
-      List.fold_left (fun acc a -> acc@(deserialize_ship a)) [] 
+      pboard = deserialize_board y; ships =
+      List.fold_left (fun acc a -> acc@(deserialize_ship a)) []
         (Str.split (Str.regexp "$%") z)}
 
-
-
+Almost got it
+*)
 
 
 
