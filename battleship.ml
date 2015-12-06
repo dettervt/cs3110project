@@ -87,6 +87,7 @@ let rec get_valid_p2 (p1:position) (pm:player_model) (shiplen:int) : position =
 
 let place_valid (shiplen:int) (pm:player_model) : position list =
     let pos1 = get_valid_pos "shipboard" pm in
+    let _ = set_selected pos1 pm in
     let pos2 = get_valid_p2 pos1 pm shiplen in
     get_between pos1 pos2
 
